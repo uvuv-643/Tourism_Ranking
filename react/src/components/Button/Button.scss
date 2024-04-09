@@ -2,7 +2,6 @@
   max-width: 100%;
   position: relative;
   cursor: pointer;
-  display: inline-block;
   text-align: center;
   border-radius: 3px;
   font-size: 14px;
@@ -16,6 +15,19 @@
   background: $primary;
   display: flex;
   align-items: center;
+  &._small {
+    //padding: 6px 20px;
+    svg {
+      font-size: 14px;
+    }
+  }
+  &._secondary {
+    text-align: center;
+    display: block;
+    border: 1px solid $dark;
+    color: $dark;
+    background: transparent;
+  }
   svg {
     margin-left: 10px;
     font-size: 16px;

@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import TextInput from "../TextInput/TextInput";
+import ImageUpload from "../ImageUpload/ImageUpload";
 
 const TextPhotoInput = () => {
 
@@ -8,10 +9,21 @@ const TextPhotoInput = () => {
 
     return (
         <div className="TextPhotoInput">
-            <TextInput
-                onChange={setTextQuery}
-                handlePhotoMode={() => setPhotoModeEnabled(true)}
-            />
+            {
+                photoModeEnabled ? (
+                    <ImageUpload
+                        id="image-upload"
+                        onChange={setTextQuery}
+                        handleTextMode={() => setPhotoModeEnabled(false)}
+                    />
+                ) : (
+                    <TextInput
+                        onChange={setTextQuery}
+                        handlePhotoMode={() => setPhotoModeEnabled(true)}
+                    />
+                )
+            }
+
         </div>
     )
 

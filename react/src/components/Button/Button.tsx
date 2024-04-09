@@ -2,15 +2,17 @@ import React from 'react'
 
 type ButtonProps = {
     children: React.ReactNode,
-    onClick: () => void,
+    onClick?: () => void,
+    small?: boolean
+    secondary?: boolean
 }
 
-const Button = ({ children, onClick } : ButtonProps) => {
+const Button = ({children, onClick, small, secondary}: ButtonProps) => {
 
     return (
-        <button className="Button" onClick={onClick}>
-            { children }
-        </button>
+        <div className={"Button" + (small ? " _small" : '') + (secondary ? " _secondary" : '')} onClick={onClick}>
+            {children}
+        </div>
     )
 
 }
