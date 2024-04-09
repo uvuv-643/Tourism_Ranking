@@ -1,0 +1,10 @@
+body, html, input, button, select, option, label {
+    font-family: 'HelveticaNeueCyr', sans-serif;
+}
+* {
+    box-sizing: border-box;
+}
+body, html {
+    padding: 0;
+    margin: 0;
+}

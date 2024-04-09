@@ -1,0 +1,24 @@
+.Home {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  &__Wrapper {
+    max-width: 600px;
+    width: 600px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  &__Button {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+  }
+  h1 {
+    font-size: 24px;
+    span {
+      color: $primary;
+    }
+  }
+}
