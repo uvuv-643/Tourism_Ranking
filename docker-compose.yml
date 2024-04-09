@@ -13,7 +13,7 @@ services:
       - ./certbot/www:/var/www/certbot/
       - ./certbot/conf:/etc/letsencrypt/
     networks:
-      - otiva
+      - global
 
   fastapi:
     container_name: fastapi
@@ -43,8 +43,8 @@ services:
       context: ./react
       dockerfile: Dockerfile
     networks:
-      - otiva
-      -
+      - global
+
 networks:
   global:
     driver: bridge
