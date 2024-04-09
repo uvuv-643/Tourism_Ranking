@@ -1,0 +1,50 @@
+version: '3'
+services:
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./certbot/www:/var/www/certbot/
+      - ./certbot/conf:/etc/letsencrypt/
+    networks:
+      - otiva
+
+  fastapi:
+    container_name: fastapi
+    restart: unless-stopped
+    build:
+      context: ./fastapi
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./fastapi:/app
+    networks:
+      - global
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    command: certonly --webroot -w /var/www/certbot/ --email uvuv.space@gmail.com -d api.uvuv643.ru -d uvuv643.ru --agree-tos --cert-name tourism
+
+  react:
+    container_name: react
+    restart: unless-stopped
+    build:
+      context: ./react
+      dockerfile: Dockerfile
+    networks:
+      - otiva
+      -
+networks:
+  global:
+    driver: bridge
