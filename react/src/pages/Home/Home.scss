@@ -4,6 +4,11 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  &__Input {
+    &._hidden {
+      display: none;
+    }
+  }
   &__Wrapper {
     max-width: 600px;
     width: 100%;
@@ -21,4 +26,19 @@
       color: $primary;
     }
   }
+
+  &__Error {
+    color: red;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-weight: 500;
+  }
+
+  &__Loader {
+    padding: 70px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
 }

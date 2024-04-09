@@ -20,7 +20,7 @@ const RadioButtons = ({id, values, label}: RadioProps) => {
             <div className="RadioButtons__Buttons">
                 {values.map(el => {
                     return (
-                        <div>
+                        <div key={el.id}>
                             <input type="radio" name={id} value={el.id} id={el.id}/>
                             <label htmlFor={el.id}>{el.label}</label>
                         </div>
