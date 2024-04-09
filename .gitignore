@@ -4,3 +4,6 @@
 .env
 */.env
 certbot/*
+fastapi/*/__pycache__
+fastapi/*/*__pycache__
+fastapi/*/*/*/__pycache__
