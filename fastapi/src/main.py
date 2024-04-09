@@ -2,10 +2,10 @@ from fastapi import Request
 import uvicorn
 from fastapi import FastAPI
 
-from api.responses.api_response import ApiResponse
-from api.routers.base import create_app_routers
-from config.app.config import settings_app
-from utils.validator.exceptions import AppValidationException
+from src.api.responses.api_response import ApiResponse
+from src.api.routers.base import create_app_routers
+from src.config.app.config import settings_app
+from src.utils.validator.exceptions import AppValidationException
 
 
 def get_application() -> FastAPI:

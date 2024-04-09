@@ -1,7 +1,7 @@
-from api.payloads.base import BasePayload
+from src.api.payloads.base import BasePayload
 import re
 
-from utils.validator.exceptions import AppValidationException
+from src.utils.validator.exceptions import AppValidationException
 
 
 class Validator:

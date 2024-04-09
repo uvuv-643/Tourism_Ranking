@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Request
 
-from api.responses.api_response import ApiResponse
+from src.api.responses.api_response import ApiResponse
 
 router = APIRouter(
     prefix="/model",
