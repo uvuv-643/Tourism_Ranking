@@ -47,6 +47,7 @@ async def photo_information(request: Request):
             "content": image_base64,
             "time": time.time() - start_time
         }, ensure_ascii=False))
+        logging.warning("added redis_connection", message)
         if message is not None and message['data']:
             return ApiResponse.payload({
                 'hello': message['data']
