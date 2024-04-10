@@ -17,6 +17,7 @@ class AppConfig(BaseSettings):
     UVICORN_RELOAD: bool
 
     REDIS_PASSWORD: str
+    REDIS_HOST: str
 
     class Config:
         env_file = ".env"
