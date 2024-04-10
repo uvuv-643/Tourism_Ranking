@@ -6,7 +6,6 @@ services:
     container_name: nginx
     restart: unless-stopped
     ports:
-      - "80:80"
       - "443:443"
     volumes:
       - ./nginx/conf.d/:/etc/nginx/conf.d/
@@ -14,6 +13,9 @@ services:
       - ./certbot/conf:/etc/letsencrypt/
     networks:
       - global
+
+  nginx_http:
+
 
   fastapi:
     container_name: fastapi
@@ -29,12 +31,15 @@ services:
       - global
 
   certbot:
-    image: certbot/certbot
+    build:
+      context: ./ssl
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
     container_name: certbot
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-    command: certonly --webroot -w /var/www/certbot/ --email uvuv.space@gmail.com -d api.uvuv643.ru -d uvuv643.ru --agree-tos --cert-name tourism
 
   react:
     container_name: react
