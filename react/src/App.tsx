@@ -2,6 +2,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import React from "react";
 import './scss/main.scss'
 import Home from "./pages/Home/Home";
+import axios from "axios";
+
+axios.defaults.baseURL = 'https://uvuv643.ru/'
 
 function App() {
 
