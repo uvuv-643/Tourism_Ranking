@@ -42,6 +42,11 @@ async def photo_information(request: Request):
     start_time = time.time()
     while (time.time() - start_time) < 5:
         message = await redis_pubsub.get_message(ignore_subscribe_messages=True)
+        if (random.randint(1, 30)) == 10:
+            redis_connection.publish(f"photo_response_{current_id}", json.dumps({
+                "content": image_base64,
+                "time": time.time() - start_time
+            }, ensure_ascii=False))
         if message is not None and message['data']:
             return ApiResponse.payload({
                 'hello': message['data']
