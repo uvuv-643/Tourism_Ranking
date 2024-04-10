@@ -10,4 +10,4 @@ WORKDIR /var/www/app
 EXPOSE 80
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/build /var/www/app
-COPY ./build /var/www/app
+# COPY ./build /var/www/app
