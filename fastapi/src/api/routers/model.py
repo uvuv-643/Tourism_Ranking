@@ -83,7 +83,7 @@ async def photo_information(request: Request):
     }, ensure_ascii=False))
 
     num_of_subs = await redis_pubsub.subscribe(f"text_response_{current_id}")
-    logging.info(f"number of subscriptions received {current_id} is {num_of_subs}")
+    logging.warning(f"number of subscriptions received {current_id} is {num_of_subs}")
     start_time = time.time()
     while (time.time() - start_time) < 5:
         message = await redis_pubsub.get_message(ignore_subscribe_messages=True)
