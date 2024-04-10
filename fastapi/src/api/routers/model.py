@@ -21,11 +21,12 @@ async def photo_information(request: Request):
     try:
         request_content = await request.json()
         image_base64 = request_content['image'].split(',', 1)[1]
+        city_id = request_content['city_id']
         logging.warning("got an image", image_base64)
     except:
         return ApiResponse.payload({
             'error': True,
-            'message': 'Некорректное base64 изображение'
+            'message': 'Некорректный запрос'
         })
 
     redis_connection = redis.get_connection()
@@ -34,7 +35,8 @@ async def photo_information(request: Request):
     current_id = str(uuid.uuid4())
     await redis_connection.publish("photo_queries", json.dumps({
         "id": current_id,
-        "content": image_base64
+        "content": image_base64,
+        "city_id": city_id
     }, ensure_ascii=False))
 
     await redis_pubsub.subscribe(f"photo_response_{current_id}")
@@ -48,7 +50,8 @@ async def photo_information(request: Request):
         await asyncio.sleep(0.1)
 
     return ApiResponse.payload({
-        'detail': "Ошибка удаленного сервера"
+        'error': True,
+        'message': 'Ошибка удаленного сервера'
     })
 
 
@@ -57,8 +60,11 @@ async def photo_information(request: Request):
     try:
         request_content = await request.json()
         text = request_content['text']
+        city_id = request_content['city_id']
         logging.warning("got a text", text)
         if len(text) > 500:
+            raise Exception()
+        if city_id not in [1, 2, 3, 4, 0]:
             raise Exception()
     except:
         return ApiResponse.payload({
@@ -72,7 +78,8 @@ async def photo_information(request: Request):
     current_id = str(uuid.uuid4())
     await redis_connection.publish("text_queries", json.dumps({
         "id": current_id,
-        "content": text
+        "content": text,
+        "city_id": city_id
     }, ensure_ascii=False))
 
     await redis_pubsub.subscribe(f"text_response_{current_id}")
@@ -86,5 +93,6 @@ async def photo_information(request: Request):
         await asyncio.sleep(0.1)
 
     return ApiResponse.payload({
-        'detail': "Ошибка удаленного сервера"
+        'error': True,
+        'message': 'Ошибка удаленного сервера'
     })

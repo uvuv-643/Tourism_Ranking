@@ -6,6 +6,7 @@ import {LuMapPin} from "react-icons/lu";
 import RadioButtons from "../../components/RadioButtons/RadioButtons";
 import Histogram from "../../components/Histogram/Histogram";
 import Map from "../../components/Map/Map";
+import axios from "axios";
 
 const cities = [{
     id: '0',
@@ -32,6 +33,12 @@ type Showplace = {
     photos: string[]
 }
 
+type Category = {
+    prob: number,
+    label: string,
+}
+
+
 const Home = () => {
 
     const [query, setQuery] = useState<string>("")
@@ -42,6 +49,7 @@ const Home = () => {
 
     const [center, setCenter] = useState<google.maps.LatLngLiteral>()
     const [showplaces, setShowplaces] = useState<Showplace[]>([])
+    const [categories, setCategories] = useState<Category[]>([])
 
     const histRef = useRef<HTMLDivElement>(null)
 
@@ -58,12 +66,38 @@ const Home = () => {
     const handleProcess = () => {
         setError('')
         setLoading(true)
-        setTimeout(() => {
-            setLoading(false)
-            setTimeout(() => {
-                histRef.current?.scrollIntoView({behavior: 'smooth'})
-            }, 100)
-        }, 3000)
+        if (photoModeEnabled) {
+            axios.post('/model/photo', {
+                'image': query
+            }).then(response => {
+                setLoading(false)
+                if (response.status === 200) {
+                    setTimeout(() => {
+                        histRef.current?.scrollIntoView({behavior: 'smooth'})
+                    }, 100)
+                    if (response.data.error === false) {
+                        setError(response.data.message)
+                    }
+                    setCategories(response.data.categoies)
+                    setShowplaces(response.data.objects)
+                }
+            })
+        } else {
+            axios.post('/model/text', {
+                'text': query
+            }).then(response => {
+                setLoading(false)
+                if (response.status === 200) {
+                    setTimeout(() => {
+                        histRef.current?.scrollIntoView({behavior: 'smooth'})
+                    }, 100)
+                    if (response.data.error === false) {
+                        setError(response.data.message)
+                    }
+                    setShowplaces(response.data.objects)
+                }
+            })
+        }
     }
 
     const handleSubmit = () => {
@@ -107,26 +141,9 @@ const Home = () => {
                     )
                 }
 
-                {/*{showplaces.length && (*/}
                 <div className="Home__Histograms" ref={histRef}>
                     <div className="Home__Categories">
-                        <Histogram title="Распределение по категориям" values={[
-                            {label: 'Кафе-ресторан', prob: 0.2},
-                            {label: 'Парк', prob: 0.1},
-                            {label: 'Музей', prob: 0.08},
-                            {label: 'Кинотеатр', prob: 0.06},
-                            {label: 'Театр', prob: 0.05},
-                            {label: 'Библиотека', prob: 0.05},
-                            {label: 'Клуб/бар', prob: 0.05},
-                            {label: 'Тематический парк', prob: 0.04},
-                            {label: 'Выставка', prob: 0.04},
-                            {label: 'Концерт', prob: 0.04},
-                            {label: 'Аттракцион', prob: 0.04},
-                            {label: 'Мастер-класс', prob: 0.04},
-                            {label: 'Квест-комната', prob: 0.04},
-                            {label: 'Культурный центр', prob: 0.04},
-                            {label: 'Другое', prob: 0.04}
-                        ]}/>
+                        <Histogram title="Распределение по категориям" values={categories}/>
                     </div>
                     <div className="Home__Objects">
                         <Histogram title="Распределение по объектам" values={showplaces}/>
@@ -137,9 +154,6 @@ const Home = () => {
                         )}
                     </div>
                 </div>
-                {/*)}*/}
-
-
             </div>
         </div>
     )
