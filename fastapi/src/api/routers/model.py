@@ -42,8 +42,8 @@ async def photo_information(request: Request):
     start_time = time.time()
     while (time.time() - start_time) < 5:
         message = await redis_pubsub.get_message()
+        logging.warning("message received" + str(message))
         if message is not None:
-            logging.warning("message received", message)
             return ApiResponse.payload({
                 'hello': message.decode('utf-8')
             })
