@@ -16,6 +16,8 @@ class AppConfig(BaseSettings):
     UVICORN_PORT: int
     UVICORN_RELOAD: bool
 
+    REDIS_PASSWORD: str
+
     class Config:
         env_file = ".env"
 
