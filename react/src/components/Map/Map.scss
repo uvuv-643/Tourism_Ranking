@@ -1,0 +1,33 @@
+.map-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 8px solid $primary;
+  cursor: pointer;
+}
+
+.cluster-icon {
+  margin-top: -25px;
+  margin-left: -25px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  font-weight: bold;
+  background: $primary;
+  color: $dark;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+
+.Map {
+  &__Content {
+    #map {
+      height: 400px;
+    }
+  }
+}

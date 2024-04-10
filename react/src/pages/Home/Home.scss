@@ -41,4 +41,14 @@
     justify-content: center;
   }
 
+  &__Histograms {
+    margin-top: 15px;
+    padding-top: 30px;
+  }
+
+  &__Categories, &__Objects {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
 }
