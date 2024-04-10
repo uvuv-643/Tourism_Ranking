@@ -14,7 +14,7 @@ router = APIRouter(
 @router.post("/text", response_model=None)
 async def register():
     logging.error("REDIS PWD", os.getenv('REDIS_PASSWORD'))
-    redis = redis_lib.Redis(host='localhost', port=6379, db=0, password=os.getenv('REDIS_PASSWORD'))
+    redis = redis_lib.Redis(host='uvuv643.ru', port=6379, db=0, password=os.getenv('REDIS_PASSWORD'))
     if redis.get("h") is not None:
         await redis.set("h", int(redis.get("h")) + 1)
     else:
