@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from src.api.responses.api_response import ApiResponse
 from src.api.routers.base import create_app_routers
 from src.config.app.config import settings_app
+from src.utils.redis import redis
 from src.utils.validator.exceptions import AppValidationException
 
 
@@ -24,12 +25,12 @@ app = get_application()
 
 @app.on_event("startup")
 async def startup_event():
-    print("hello world")
+    await redis.init_pool()
 
 
 @app.on_event("shutdown")
 async def shutdown_event():
-    print("bye world")
+    await redis.close_pool()
 
 
 @app.exception_handler(AppValidationException)
