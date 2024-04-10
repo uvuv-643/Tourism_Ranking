@@ -63,3 +63,4 @@ tzdata==2023.4
 ujson==5.9.0
 uvicorn==0.25.0
 watchfiles==0.21.0
+redis

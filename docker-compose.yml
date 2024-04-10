@@ -45,6 +45,26 @@ services:
     networks:
       - global
 
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-volume:/usr/local/redis/data
+      - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    env_file:
+      - ./redis/.env
+    networks:
+      - global
+    command:
+      redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASSWORD}
+
 networks:
   global:
     driver: bridge
+
+volumes:
+  redis-volume:
+    driver: local
