@@ -21,6 +21,7 @@ async def photo_information(request: Request):
     try:
         request_content = await request.json()
         image_base64 = request_content['image'].split(',', 1)[1]
+        logging.warning("got an image", image_base64)
     except:
         return ApiResponse.payload({
             'error': True,
