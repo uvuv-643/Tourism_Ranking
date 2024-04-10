@@ -20,5 +20,5 @@ async def register():
     else:
         redis.set("h", "0")
     return ApiResponse.payload({
-        'hello': redis.get("h")
+        'hello': str(redis.get("h"))
     })
