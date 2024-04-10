@@ -11,10 +11,10 @@ router = APIRouter(
     tags=["model"],
 )
 
+redis = redis_lib.Redis(host='uvuv643.ru', port=6379, db=0, password=os.getenv('REDIS_PASSWORD'))
 
 @router.post("/text", response_model=None)
 async def register():
-    redis = redis_lib.Redis(host='uvuv643.ru', port=6379, db=0, password=os.getenv('REDIS_PASSWORD'))
     if redis.get("h") is not None:
         redis.set("h", int(redis.get("h")) + 1)
     else:
