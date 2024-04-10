@@ -41,7 +41,7 @@ async def photo_information(request: Request):
     await redis_pubsub.subscribe(f"photo_response_{current_id}")
     start_time = time.time()
     while (time.time() - start_time) < 5:
-        message = redis_pubsub.get_message()
+        message = await redis_pubsub.get_message()
         if message is not None:
             return ApiResponse.payload({
                 'hello': message
