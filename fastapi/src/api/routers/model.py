@@ -88,7 +88,7 @@ async def photo_information(request: Request):
         message = await redis_pubsub.get_message(ignore_subscribe_messages=True)
         if message is not None and message['data']:
             return ApiResponse.payload({
-                'hello': message['data'].decode('utf-8')
+                'objects': json.loads(message['data'].decode('utf-8'))
             })
         await asyncio.sleep(0.1)
 
