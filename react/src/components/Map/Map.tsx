@@ -158,7 +158,7 @@ const Map = ({ center, points } : MapProps) => {
             map={map}
             setMap={setMap}
             center={center}
-            zoom={13}
+            zoom={6}
             onIdle={handleIdle}
           ></MapComponent>
         </Wrapper>

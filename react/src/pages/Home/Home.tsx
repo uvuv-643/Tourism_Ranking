@@ -102,6 +102,7 @@ const Home = () => {
                     if (response.data.error === false) {
                         setError(response.data.message)
                     }
+                    setCategories(response.data.categories)
                     setShowplaces(response.data.objects)
                 }
             })
