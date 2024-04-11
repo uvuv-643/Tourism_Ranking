@@ -52,6 +52,7 @@ const Home = () => {
     const [categories, setCategories] = useState<Category[]>([])
 
     const [cityId, setCityId] = useState<number>(0)
+    const [routes, setRoutes] = useState<string[]>([])
 
     const histRef = useRef<HTMLDivElement>(null)
 
@@ -88,8 +89,11 @@ const Home = () => {
                     if (response.data.error === false) {
                         setError(response.data.message)
                     }
-                    setCategories(response.data.categories)
-                    setShowplaces(response.data.objects)
+                    setCategories(response.data.result.categories)
+                    setShowplaces(response.data.result.objects)
+                    setRoutes(response.data.route.map((el: number[]) => {
+                        return el[1].toString() + "," + el[0].toString()
+                    }))
                 }
             })
         } else {
@@ -154,7 +158,7 @@ const Home = () => {
                     )
                 }
             </div>
-            <div className={ "Home__Response" + (showplaces.length == 0 ? ' _hidden' : '') }>
+            <div className={"Home__Response" + (showplaces.length == 0 ? ' _hidden' : '')}>
                 <div className="Home__Histograms" ref={histRef}>
                     <div className="Home__Categories">
                         <Histogram title="Распределение по категориям" values={categories}/>
@@ -169,12 +173,14 @@ const Home = () => {
                         <Map center={center} points={showplaces.map(el => el.point)} route={[]}/>
                     )}
                 </div>
-                <div className="Home__Map Home__Map--Way">
-                    <h2>Построенный маршрут</h2>
-                    {center && (
-                        <Map center={center} points={[]} route={['60,30', '60.5,30.5', '61,31']}/>
-                    )}
-                </div>
+                {routes.length && (
+                    <div className="Home__Map Home__Map--Way">
+                        <h2>Построенный маршрут</h2>
+                        {center && (
+                            <Map center={center} points={[]} route={routes}/>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     )
