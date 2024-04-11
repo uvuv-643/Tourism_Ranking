@@ -88,6 +88,7 @@ const Home = () => {
                     }, 100)
                     if (response.data.error === false) {
                         setError(response.data.message)
+                        return
                     }
                     setCategories(response.data.result.categories)
                     setShowplaces(response.data.result.objects)
@@ -108,9 +109,13 @@ const Home = () => {
                     }, 100)
                     if (response.data.error === false) {
                         setError(response.data.message)
+                        return
                     }
-                    setCategories(response.data.categories)
-                    setShowplaces(response.data.objects)
+                    setCategories(response.data.result.categories)
+                    setShowplaces(response.data.result.objects)
+                    setRoutes(response.data.route.map((el: number[]) => {
+                        return el[1].toString() + "," + el[0].toString()
+                    }))
                 }
             })
         }
