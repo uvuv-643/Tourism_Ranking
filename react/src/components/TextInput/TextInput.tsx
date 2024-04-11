@@ -11,7 +11,7 @@ const TextInput = ({handlePhotoMode, onChange}: TextInputProps) => {
 
     return (
         <div className="TextInput">
-            <Input onChange={onChange} label="Введите ваш запрос" placeholder="Самые древние места Нижнего Новгорода" />
+            <Input onChange={onChange} label="Введите ваш запрос" placeholder="Нижегородский Кремль" />
             <div className="TextInput__Camera" onClick={handlePhotoMode}>
                 <FaCamera/>
             </div>

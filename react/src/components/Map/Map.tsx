@@ -10,10 +10,11 @@ type DisplayedPoint = {
 
 type MapProps = {
   center: google.maps.LatLngLiteral,
-  points: google.maps.LatLngLiteral[]
+  points: google.maps.LatLngLiteral[],
+  route: string[]
 }
 
-const Map = ({ center, points } : MapProps) => {
+const Map = ({ center, points, route } : MapProps) => {
   const [currentZoom, setCurrentZoom] = useState<number | undefined>(13);
   const [currentCenter, setCurrentCenter] = useState<google.maps.LatLng>();
 
@@ -150,8 +151,8 @@ const Map = ({ center, points } : MapProps) => {
     <div className="Map">
       <div className="Map__Content">
         <Wrapper
-          apiKey={''}
-          libraries={['marker', 'maps', 'geocoding']}
+          apiKey={'AIzaSyCllS8bOprdLh7eMPd0DcM2ZNYe2TrNS9I'}
+          libraries={['marker', 'maps', 'geocoding', 'routes']}
           version="beta"
         >
           <MapComponent
@@ -160,6 +161,7 @@ const Map = ({ center, points } : MapProps) => {
             center={center}
             zoom={6}
             onIdle={handleIdle}
+            route={route}
           ></MapComponent>
         </Wrapper>
       </div>

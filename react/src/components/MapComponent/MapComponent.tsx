@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 type MapProps = {
     center: google.maps.LatLngLiteral;
@@ -8,11 +8,44 @@ type MapProps = {
     onIdle?: (map: google.maps.Map) => void;
     map?: google.maps.Map;
     setMap: (map: google.maps.Map) => void;
-        // @ts-ignore
+    route?: string[],
+    // @ts-ignore
 } & google.maps.marker.AdvancedMarkerElementOptions;
 
-function MapComponent({center, zoom, children, onClick, onIdle, map, setMap}: MapProps) {
+function MapComponent({center, zoom, children, onClick, onIdle, map, setMap, route}: MapProps) {
+
     const ref = React.useRef<HTMLDivElement>(null);
+
+    const directionsService = useRef<google.maps.DirectionsService>()
+    const directionsRenderer = useRef<google.maps.DirectionsRenderer>()
+
+    useEffect(() => {
+        directionsService.current = new google.maps.DirectionsService()
+        directionsRenderer.current = new google.maps.DirectionsRenderer()
+        directionsRenderer.current.setMap(map)
+    }, [map]);
+
+    useEffect(() => {
+        console.log(route.slice(1, route.length - 1))
+        if (route.length > 2 && directionsService.current) {
+            directionsService.current.route({
+                travelMode: google.maps.TravelMode.WALKING,
+                waypoints: route.slice(1, route.length - 1).map((el : any) => { return { location: el }}),
+                origin: {
+                    query: route[0],
+                },
+                destination: {
+                    query: route[route.length - 1],
+                },
+            }, (response) => {
+                if (directionsRenderer.current) {
+                    console.log("response", response)
+                    directionsRenderer.current.setDirections(response);
+                }
+            })
+        }
+
+    }, [route]);
 
     React.useEffect(() => {
         if (map) {

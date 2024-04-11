@@ -22,7 +22,6 @@ async def photo_information(request: Request):
         request_content = await request.json()
         image_base64 = request_content['image'].split(',', 1)[1]
         city_id = request_content['city_id']
-        logging.warning("got an image", image_base64)
     except:
         return ApiResponse.payload({
             'error': True,
@@ -59,7 +58,6 @@ async def photo_information(request: Request):
         request_content = await request.json()
         text = request_content['text']
         city_id = request_content['city_id']
-        logging.warning("got a text", text)
         if len(text) > 500:
             raise Exception()
         if city_id not in [1, 2, 3, 4, 0]:

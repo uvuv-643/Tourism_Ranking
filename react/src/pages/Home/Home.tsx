@@ -57,15 +57,18 @@ const Home = () => {
 
     useEffect(() => {
         if (showplaces.length) {
-             setCenter(
-            showplaces.map(el => el.point).reduce((prev, curr) => {
-                return {
-                    lat: prev.lat + curr.lat / showplaces.length,
-                    lng: prev.lng + curr.lng / showplaces.length
-                }
-            }, {lat: 0, lng: 0}))
+            setCenter(
+                showplaces.map(el => el.point).reduce((prev, curr) => {
+                    return {
+                        lat: prev.lat + curr.lat / showplaces.length,
+                        lng: prev.lng + curr.lng / showplaces.length
+                    }
+                }, {lat: 0, lng: 0}))
         } else {
-            setCenter(undefined)
+            setCenter({
+                lat: 56.209107578350405,
+                lng: 43.53579388756311,
+            })
         }
     }, [showplaces]);
 
@@ -132,7 +135,8 @@ const Home = () => {
                 <h1>Поиск <span>туристических мест</span> в городах России </h1>
                 <div className={"Home__Input" + (loading ? ' _hidden' : '')}>
                     <TextPhotoInput onChange={setQuery} onChangeMode={setPhotoModeEnabled}></TextPhotoInput>
-                    <RadioButtons id="radio" label="Выберите город" values={cities} onChange={(v: string) => setCityId(parseInt(v))}/>
+                    <RadioButtons id="radio" label="Выберите город" values={cities}
+                                  onChange={(v: string) => setCityId(parseInt(v))}/>
                     <div className="Home__Button">
                         <Button onClick={handleSubmit}>Построить экскурсионный маршрут <LuMapPin/></Button>
                     </div>
@@ -150,7 +154,7 @@ const Home = () => {
                     )
                 }
             </div>
-            <div className="Home__Response">
+            <div className={ "Home__Response" + (showplaces.length == 0 ? ' _hidden' : '') }>
                 <div className="Home__Histograms" ref={histRef}>
                     <div className="Home__Categories">
                         <Histogram title="Распределение по категориям" values={categories}/>
@@ -162,7 +166,13 @@ const Home = () => {
                 </div>
                 <div className="Home__Map">
                     {center && (
-                        <Map center={center} points={showplaces.map(el => el.point)}/>
+                        <Map center={center} points={showplaces.map(el => el.point)} route={[]}/>
+                    )}
+                </div>
+                <div className="Home__Map Home__Map--Way">
+                    <h2>Построенный маршрут</h2>
+                    {center && (
+                        <Map center={center} points={[]} route={['60,30', '60.5,30.5', '61,31']}/>
                     )}
                 </div>
             </div>
