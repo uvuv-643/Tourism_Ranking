@@ -51,16 +51,22 @@ const Home = () => {
     const [showplaces, setShowplaces] = useState<Showplace[]>([])
     const [categories, setCategories] = useState<Category[]>([])
 
+    const [cityId, setCityId] = useState<number>(0)
+
     const histRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        setCenter(
+        if (showplaces.length) {
+             setCenter(
             showplaces.map(el => el.point).reduce((prev, curr) => {
                 return {
                     lat: prev.lat + curr.lat / showplaces.length,
                     lng: prev.lng + curr.lng / showplaces.length
                 }
             }, {lat: 0, lng: 0}))
+        } else {
+            setCenter(undefined)
+        }
     }, [showplaces]);
 
     const handleProcess = () => {
@@ -68,7 +74,8 @@ const Home = () => {
         setLoading(true)
         if (photoModeEnabled) {
             axios.post('/model/photo', {
-                'image': query
+                'image': query,
+                'city_id': cityId
             }).then(response => {
                 setLoading(false)
                 if (response.status === 200) {
@@ -78,13 +85,14 @@ const Home = () => {
                     if (response.data.error === false) {
                         setError(response.data.message)
                     }
-                    setCategories(response.data.categoies)
+                    setCategories(response.data.categories)
                     setShowplaces(response.data.objects)
                 }
             })
         } else {
             axios.post('/model/text', {
-                'text': query
+                'text': query,
+                'city_id': cityId
             }).then(response => {
                 setLoading(false)
                 if (response.status === 200) {
@@ -123,7 +131,7 @@ const Home = () => {
                 <h1>Поиск <span>туристических мест</span> в городах России </h1>
                 <div className={"Home__Input" + (loading ? ' _hidden' : '')}>
                     <TextPhotoInput onChange={setQuery} onChangeMode={setPhotoModeEnabled}></TextPhotoInput>
-                    <RadioButtons id="radio" label="Выберите город" values={cities}/>
+                    <RadioButtons id="radio" label="Выберите город" values={cities} onChange={(v: string) => setCityId(parseInt(v))}/>
                     <div className="Home__Button">
                         <Button onClick={handleSubmit}>Построить экскурсионный маршрут <LuMapPin/></Button>
                     </div>

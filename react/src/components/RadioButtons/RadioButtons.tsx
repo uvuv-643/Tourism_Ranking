@@ -8,11 +8,12 @@ interface RadioOption {
 type RadioProps = {
     id?: string,
     values: RadioOption[],
-    label?: string
+    label?: string,
+    onChange: (v: string) => void
 }
 
 
-const RadioButtons = ({id, values, label}: RadioProps) => {
+const RadioButtons = ({id, values, label, onChange}: RadioProps) => {
 
     return (
         <div className="RadioButtons">
@@ -21,7 +22,7 @@ const RadioButtons = ({id, values, label}: RadioProps) => {
                 {values.map(el => {
                     return (
                         <div key={el.id}>
-                            <input type="radio" name={id} value={el.id} id={el.id}/>
+                            <input type="radio" name={id} value={el.id} id={el.id} onChange={e => onChange(e.target.value)}/>
                             <label htmlFor={el.id}>{el.label}</label>
                         </div>
                     )
