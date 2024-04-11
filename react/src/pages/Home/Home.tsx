@@ -140,7 +140,8 @@ const Home = () => {
                         </div>
                     )
                 }
-
+            </div>
+            <div className="Home__Response">
                 <div className="Home__Histograms" ref={histRef}>
                     <div className="Home__Categories">
                         <Histogram title="Распределение по категориям" values={categories}/>
@@ -148,11 +149,12 @@ const Home = () => {
                     <div className="Home__Objects">
                         <Histogram title="Распределение по объектам" values={showplaces}/>
                     </div>
-                    <div className="Home__Map">
-                        {center && (
-                            <Map center={center} points={showplaces.map(el => el.point)}/>
-                        )}
-                    </div>
+
+                </div>
+                <div className="Home__Map">
+                    {center && (
+                        <Map center={center} points={showplaces.map(el => el.point)}/>
+                    )}
                 </div>
             </div>
         </div>

@@ -2,26 +2,30 @@
   padding-top: 50px;
   padding-bottom: 50px;
   width: 100%;
-  display: flex;
-  justify-content: center;
+
   &__Input {
     &._hidden {
       display: none;
     }
   }
+
   &__Wrapper {
     max-width: 600px;
+    margin: auto;
     width: 100%;
     padding-left: 15px;
     padding-right: 15px;
   }
+
   &__Button {
     margin-top: 30px;
     display: flex;
     align-items: center;
   }
+
   h1 {
     font-size: 24px;
+
     span {
       color: $primary;
     }
@@ -44,11 +48,36 @@
   &__Histograms {
     margin-top: 15px;
     padding-top: 30px;
+    display: flex;
+    justify-content: center;
+    margin-left: -10px;
+    margin-right: -10px;
+  }
+
+  &__Response {
+    max-width: 1200px;
+    margin: auto;
   }
 
   &__Categories, &__Objects {
-    margin-top: 15px;
-    margin-bottom: 15px;
+    width: calc(50% - 15px);
+    margin: 10px 10px 20px;
   }
 
+}
+
+@media (max-width: 1230px) {
+  .Home {
+    &__Histograms {
+      display: block;
+      margin: 0;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
+    &__Categories, &__Objects {
+      width: 100%;
+      margin: 0 0 20px;
+    }
+  }
 }
